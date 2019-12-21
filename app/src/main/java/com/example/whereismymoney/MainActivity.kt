@@ -17,6 +17,12 @@ import com.example.whereismymoney.models.AppDatabase
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.app.Activity
 import android.widget.Toast
+import com.example.whereismymoney.helpers.APIInterface
+import com.example.whereismymoney.helpers.APIResponse
+import com.example.whereismymoney.helpers.NetworkClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +60,31 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
 
+        getRates()
+
+    }
+
+    private fun getRates() {
+        val retrofit = NetworkClient.retrofitClient
+        val r = retrofit!!.create<APIInterface>(APIInterface::class.java)
+
+        val call = r.getRates()
+
+        call.enqueue(object : Callback<APIResponse> {
+            override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
+                // TODO: alert error
+                t?.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
+                val res = response!!.body()
+                var rates = res!!.rates
+
+                // TODO: insert in drawer
+                println(rates!!.RUB)
+                println(rates!!.USD)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
