@@ -11,6 +11,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
+import androidx.room.*
+import com.example.whereismymoney.models.AppDatabase
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +39,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "database-name"
+        ).build()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
