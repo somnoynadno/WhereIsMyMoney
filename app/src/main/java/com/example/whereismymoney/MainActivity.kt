@@ -17,8 +17,6 @@ import com.example.whereismymoney.models.AppDatabase
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.app.Activity
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.helpers.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +26,6 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +38,7 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_today, R.id.nav_my_debts, R.id.nav_my_debtors
@@ -61,26 +57,8 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
 
+        // API call
         getRates()
-
-//        val items = listOf(
-//            RecyclerItem("Сергей", "12.12.2012", "1000"),
-//            RecyclerItem("Владимир", "11.11.2011", "20000"),
-//            RecyclerItem("Слава", "10.10.2010", "500"),
-//            RecyclerItem("Игорь", "01.01.2001", "4000")
-//        )
-//
-//        val myAdapter = RecyclerViewAdapter(items, object : RecyclerViewAdapter.Callback {
-//            override fun onItemClicked(item: RecyclerItem) {
-//                //TODO handle click
-//            }
-//        })
-//
-//        val debtsRecyclerView = findViewById<RecyclerView>(R.id.debtsRecyclerView)
-//        debtsRecyclerView.adapter = myAdapter
-//
-//        linearLayoutManager = LinearLayoutManager(this)
-//        debtsRecyclerView.setLayoutManager(linearLayoutManager)
     }
 
     private fun getRates() {
