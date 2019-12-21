@@ -1,5 +1,6 @@
 package com.example.whereismymoney
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
@@ -13,6 +14,9 @@ import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import androidx.room.*
 import com.example.whereismymoney.models.AppDatabase
+import kotlinx.android.synthetic.main.app_bar_main.*
+import android.app.Activity
+import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +49,11 @@ class MainActivity : AppCompatActivity() {
             AppDatabase::class.java, "database-name"
         ).build()
 
+        addNewDebtButton.setOnClickListener {
+            val intent = Intent(this, NewDebtActivity::class.java)
+            startActivityForResult(intent, 1)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,5 +65,25 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data!!.getStringExtra("result")
+                val toast = Toast.makeText(
+                    applicationContext,
+                    "Долг добавлен!", Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                val toast = Toast.makeText(
+                    applicationContext,
+                    "Отмена", Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        }
     }
 }
