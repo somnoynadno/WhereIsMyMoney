@@ -9,6 +9,6 @@
     <string name="debt_type_switch">Я должник</string>
     <string name="name_input_hint">Имя доброго человека</string>
     <string name="sum_input_hint">Сумма</string>
-    <string name="date_text">Вернуть до</string>
+    <string name="date_text">Вернуть до …</string>
     <string name="save_text">Сохранить</string>
 </resources>
