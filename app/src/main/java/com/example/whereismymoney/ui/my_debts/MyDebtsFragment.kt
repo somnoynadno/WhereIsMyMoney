@@ -21,8 +21,8 @@ class MyDebtsFragment : Fragment() {
     ): View? {
         myDebtsViewModel =
             ViewModelProviders.of(this).get(MyDebtsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_my_debtors, container, false)
-        val textView: TextView = root.findViewById(R.id.text_my_debtors)
+        val root = inflater.inflate(R.layout.fragment_my_debts, container, false)
+        val textView: TextView = root.findViewById(R.id.text_my_debts)
         myDebtsViewModel.text.observe(this, Observer {
             textView.text = it
         })

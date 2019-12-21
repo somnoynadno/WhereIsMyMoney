@@ -8,21 +8,44 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
+import com.example.whereismymoney.helpers.RecyclerItem
+import com.example.whereismymoney.helpers.RecyclerViewAdapter
 
 class TodayFragment : Fragment() {
 
     private lateinit var todayViewModel: TodayViewModel
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        todayViewModel =
-            ViewModelProviders.of(this).get(TodayViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_my_debtors, container, false)
-        val textView: TextView = root.findViewById(R.id.text_my_debtors)
+        todayViewModel = ViewModelProviders.of(this).get(TodayViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_today, container, false)
+        val textView: TextView = root.findViewById(R.id.text_today)
+        val recycler: RecyclerView = root.findViewById(R.id.debtsRecyclerView)
+
+        val items = listOf(
+            RecyclerItem("Сергей", "12.12.2012", "1000"),
+            RecyclerItem("Владимир", "11.11.2011", "20000"),
+            RecyclerItem("Слава", "10.10.2010", "500"),
+            RecyclerItem("Игорь", "01.01.2001", "4000")
+        )
+
+        val myAdapter = RecyclerViewAdapter(items, object : RecyclerViewAdapter.Callback {
+            override fun onItemClicked(item: RecyclerItem) {
+                //TODO handle click
+            }
+        })
+
+        recycler.adapter = myAdapter
+
+        linearLayoutManager = LinearLayoutManager(root.context)
+        recycler.setLayoutManager(linearLayoutManager)
         todayViewModel.text.observe(this, Observer {
             textView.text = it
         })

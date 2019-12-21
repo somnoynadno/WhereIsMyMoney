@@ -7,12 +7,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.example.whereismymoney"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -49,4 +49,6 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    implementation 'androidx.cardview:cardview:1.0.0'
 }
