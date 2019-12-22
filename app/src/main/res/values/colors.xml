@@ -3,5 +3,13 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#087F23</color>
     <color name="colorAccent">#4CAF50</color>
+
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorSolidBlack">#070707</color>
+
+    <color name="colorCardOnSwipe">#FFD8D4</color>
+    <color name="colorCardPrimary">#4CAF50</color>
+    <color name="colorCardAccent">#FF4081</color>
+
+    <color name="colorDrawerDarkBlue">#154E79</color>
 </resources>

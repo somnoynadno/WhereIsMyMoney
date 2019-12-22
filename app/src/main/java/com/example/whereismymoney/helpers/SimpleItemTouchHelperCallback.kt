@@ -1,10 +1,11 @@
 package com.example.whereismymoney.helpers
 
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 
 
-class SimpleItemTouchHelperCallback(val adapter: ItemTouchHelperAdapter) : ItemTouchHelper.Callback() {
+class SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter) : ItemTouchHelper.Callback() {
 
     private val mAdapter = adapter
 
@@ -36,6 +37,12 @@ class SimpleItemTouchHelperCallback(val adapter: ItemTouchHelperAdapter) : ItemT
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
         mAdapter.onItemDismiss(viewHolder.adapterPosition)
+
+        val toast = Toast.makeText(
+            viewHolder.itemView.context,
+            "Долг удалён!", Toast.LENGTH_SHORT
+        )
+        toast.show()
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

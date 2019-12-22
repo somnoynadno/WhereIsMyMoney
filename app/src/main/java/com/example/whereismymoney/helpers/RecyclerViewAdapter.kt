@@ -6,14 +6,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
-import android.graphics.Color
+import androidx.core.content.ContextCompat
 
 
 class RecyclerViewAdapter(var items: MutableList<RecyclerItem>, val callback: Callback) :
     RecyclerView.Adapter<RecyclerViewAdapter.MainHolder>(), ItemTouchHelperAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-            = MainHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MainHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.recycler_item,
+            parent,
+            false
+        )
+    )
 
     override fun getItemCount() = items.size
 
@@ -32,7 +37,8 @@ class RecyclerViewAdapter(var items: MutableList<RecyclerItem>, val callback: Ca
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    inner class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ItemTouchHelperViewHolder{
+    inner class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        ItemTouchHelperViewHolder {
 
         private val debtorInfoText = itemView.findViewById<TextView>(R.id.debtorInfoText)
         private val dateInfoText = itemView.findViewById<TextView>(R.id.dateInfoText)
@@ -49,7 +55,12 @@ class RecyclerViewAdapter(var items: MutableList<RecyclerItem>, val callback: Ca
         }
 
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            itemView.setBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    R.color.colorCardOnSwipe
+                )
+            )
         }
 
         override fun onItemClear() {
