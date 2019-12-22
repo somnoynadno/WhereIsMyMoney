@@ -1,5 +1,6 @@
 package com.example.whereismymoney.helpers
 
+import android.graphics.Color.WHITE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.example.whereismymoney.models.AppDatabase
 import com.example.whereismymoney.models.Debt
+import kotlinx.android.synthetic.main.recycler_item.view.*
 import java.text.SimpleDateFormat
 
 class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val callback: Callback) :
@@ -55,12 +57,27 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val call
         private val dateInfoText = itemView.findViewById<TextView>(R.id.dateInfoText)
         private val amountInfoText = itemView.findViewById<TextView>(R.id.amountInfoText)
 
+        private val currentDate = CalendarHelper().getCurrentDateAsLong()
+
         fun bind(item: Debt) {
             val sdf = SimpleDateFormat("dd.MM.yyyy")
 
             amountInfoText.text = item.amount.toString() + " " + item.currency
             dateInfoText.text = sdf.format(item.date)
             debtorInfoText.text = item.debtor
+
+            if (item.isMyDebt){
+                itemView.card_view.setBackgroundResource(R.color.colorCardAccent)
+            } else itemView.card_view.setBackgroundResource(R.color.colorCardPrimary)
+
+//            if (item.date == currentDate){
+//                itemView.card_view.setBackgroundResource(R.color.colorCardToday)
+//            }
+
+            amountInfoText.setTextColor(WHITE)
+            debtorInfoText.setTextColor(WHITE)
+            dateInfoText.setTextColor(WHITE)
+
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION)
                     callback.onItemClicked(items[adapterPosition])

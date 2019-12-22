@@ -4,6 +4,8 @@
     <string name="menu_my_debts">Мои долги</string>
     <string name="menu_my_debtors">Кто-то должен мне</string>
 
+    <string name="new_debt">Новый долг</string>
+
     <string name="placeholder_text">На этом пока всё</string>
 
     <string name="debt_type_switch">Я должник</string>

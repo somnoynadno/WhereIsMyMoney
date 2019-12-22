@@ -7,9 +7,10 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorSolidBlack">#070707</color>
 
-    <color name="colorCardOnSwipe">#FFD8D4</color>
-    <color name="colorCardPrimary">#4CAF50</color>
-    <color name="colorCardAccent">#FF4081</color>
+    <color name="colorCardOnSwipe">#FF5347</color>
+    <color name="colorCardPrimary">#E64CAF50</color>
+    <color name="colorCardAccent">#E6FF516E</color>
+    <color name="colorCardToday">#E60B92E2</color>
 
     <color name="colorDrawerDarkBlue">#154E79</color>
 </resources>

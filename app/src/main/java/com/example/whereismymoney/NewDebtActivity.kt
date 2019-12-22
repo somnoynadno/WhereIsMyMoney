@@ -17,7 +17,6 @@ import com.example.whereismymoney.models.Debt
 import java.util.*
 import java.text.SimpleDateFormat
 
-
 class NewDebtActivity : AppCompatActivity() {
 
     private var chosenDate = ""
@@ -31,6 +30,11 @@ class NewDebtActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.newDebtToolbar)
         setSupportActionBar(toolbar)
+        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
+        getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
+
+        toolbar.title = getString(R.string.new_debt)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
 
         val adapter = ArrayAdapter(
             this,
