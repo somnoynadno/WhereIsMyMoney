@@ -9,13 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
 import androidx.core.content.ContextCompat
+import androidx.room.Room
+import com.example.whereismymoney.models.AppDatabase
 import com.example.whereismymoney.models.Debt
 import java.text.SimpleDateFormat
 
-class RecyclerViewAdapter(var items: MutableList<Debt>, root: View, val callback: Callback) :
+class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val callback: Callback) :
     RecyclerView.Adapter<RecyclerViewAdapter.MainHolder>(), ItemTouchHelperAdapter {
-
-    val root = root
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -33,7 +33,11 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, root: View, val callback
     }
 
     override fun onItemDismiss(position: Int) {
+        val debt = items.get(position)
+
         items.removeAt(position)
+        deleteDebtFromDB(debt)
+
         notifyItemRemoved(position)
         checkForEmpty()
     }
@@ -86,5 +90,14 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, root: View, val callback
             root.findViewById<ImageView>(R.id.placeholder).visibility = VISIBLE
             root.findViewById<TextView>(R.id.placeholderText).visibility = VISIBLE
         }
+    }
+
+    private fun deleteDebtFromDB(debt: Debt){
+        val db = Room.databaseBuilder(
+            root.context,
+            AppDatabase::class.java, "debts"
+        ).allowMainThreadQueries().build()
+
+        db.debtDao().delete(debt)
     }
 }

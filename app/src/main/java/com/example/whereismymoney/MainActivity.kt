@@ -164,4 +164,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    // TODO: enough?
+    override fun onResume() {
+        super.onResume()
+        // API call
+        getRates()
+    }
 }
