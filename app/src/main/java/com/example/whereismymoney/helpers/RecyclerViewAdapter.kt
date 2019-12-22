@@ -7,9 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
 import androidx.core.content.ContextCompat
+import com.example.whereismymoney.models.Debt
+import java.text.SimpleDateFormat
 
 
-class RecyclerViewAdapter(var items: MutableList<RecyclerItem>, val callback: Callback) :
+class RecyclerViewAdapter(var items: MutableList<Debt>, val callback: Callback) :
     RecyclerView.Adapter<RecyclerViewAdapter.MainHolder>(), ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MainHolder(
@@ -44,9 +46,11 @@ class RecyclerViewAdapter(var items: MutableList<RecyclerItem>, val callback: Ca
         private val dateInfoText = itemView.findViewById<TextView>(R.id.dateInfoText)
         private val amountInfoText = itemView.findViewById<TextView>(R.id.amountInfoText)
 
-        fun bind(item: RecyclerItem) {
-            amountInfoText.text = item.amount
-            dateInfoText.text = item.date
+        fun bind(item: Debt) {
+            val sdf = SimpleDateFormat("dd.MM.yyyy")
+
+            amountInfoText.text = item.amount.toString() + " " + item.currency
+            dateInfoText.text = sdf.format(item.date)
             debtorInfoText.text = item.debtor
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION)
@@ -69,7 +73,7 @@ class RecyclerViewAdapter(var items: MutableList<RecyclerItem>, val callback: Ca
     }
 
     interface Callback {
-        fun onItemClicked(item: RecyclerItem)
+        fun onItemClicked(item: Debt)
     }
 
 }

@@ -49,11 +49,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "debts"
-        ).allowMainThreadQueries().build()
-
         addNewDebtButton.setOnClickListener {
             val intent = Intent(this, NewDebtActivity::class.java)
             startActivityForResult(intent, 1)
@@ -72,27 +67,68 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<APIResponse> {
             override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
                 alertNetworkErrorDialog()
+                currencyText.text = getString(R.string.network_error)
             }
 
             override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
                 val res = response!!.body()
                 val date = res!!.date
-                val rates = res.rates
+                val rates = res!!.rates
 
                 // insert in drawer
                 // TODO: format strings here
                 currencyText.text = "Курс валют (" + date.toString() + "):"
                 EUR_USD.text = "1€ = " + rates!!.USD + "$"
                 EUR_RUB.text = "1€ = " + rates!!.RUB + "\u20BD"
+
+                // ну я так подумал, что можно сразу и сумму долгов рассчитать
+                setAmountInDrawer(rates)
             }
         })
     }
 
-    private fun alertNetworkErrorDialog(){
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setMessage("Не удалось установить соединение с сервером")
+    private fun setAmountInDrawer(rates: Rates) {
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "debts"
+        ).allowMainThreadQueries().build()
 
-        builder.setPositiveButton("Ну ладно"){_, _ ->}
+        val rub = rates.RUB
+        val usd = rates.USD
+
+        val items = db.debtDao().getAll()
+        var myDebtsSum: Long = 0
+        var debtsSum: Long = 0
+
+        val iterate = items.listIterator()
+        while (iterate.hasNext()) {
+            val value = iterate.next()
+            // какая-то сложная математика
+            if (value.isMyDebt) {
+                when (value.currency) {
+                    "RUB" -> myDebtsSum += value.amount
+                    "USD" -> myDebtsSum += (value.amount*rub!!.toDouble()/usd!!.toDouble()).toLong()
+                    "EUR" -> myDebtsSum += (value.amount*rub!!.toDouble()).toLong()
+                }
+            }
+            if (!value.isMyDebt) {
+                when (value.currency) {
+                    "RUB" -> debtsSum += value.amount
+                    "USD" -> debtsSum += (value.amount*rub!!.toDouble()/usd!!.toDouble()).toLong()
+                    "EUR" -> debtsSum += (value.amount*rub!!.toDouble()).toLong()
+                }
+            }
+        }
+
+        myDebtsSumText.text = "Я должен: " + myDebtsSum + "\u20BD"
+        debtsSumText.text = "Мне должны: " + debtsSum + "\u20BD"
+    }
+
+    private fun alertNetworkErrorDialog() {
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setMessage(getString(R.string.network_error))
+
+        builder.setPositiveButton("Ну ладно") { _, _ -> }
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
