@@ -1,4 +1,4 @@
-package com.example.whereismymoney.helpers
+package com.example.whereismymoney.helpers.recycler
 
 
 interface ItemTouchHelperAdapter {

@@ -1,8 +1,10 @@
-package com.example.whereismymoney.helpers
+package com.example.whereismymoney.helpers.recycler
 
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.whereismymoney.helpers.recycler.ItemTouchHelperAdapter
+import com.example.whereismymoney.helpers.recycler.ItemTouchHelperViewHolder
 
 
 class SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter) : ItemTouchHelper.Callback() {

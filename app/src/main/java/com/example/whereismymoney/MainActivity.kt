@@ -18,7 +18,10 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import android.app.Activity
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.whereismymoney.helpers.*
+import com.example.whereismymoney.helpers.network.APIInterface
+import com.example.whereismymoney.helpers.network.APIResponse
+import com.example.whereismymoney.helpers.network.NetworkClient
+import com.example.whereismymoney.helpers.network.Rates
 import kotlinx.android.synthetic.main.nav_header_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -168,7 +171,6 @@ class MainActivity : AppCompatActivity() {
     // TODO: enough?
     override fun onResume() {
         super.onResume()
-        // API call
         getRates()
     }
 }

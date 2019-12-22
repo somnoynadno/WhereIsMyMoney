@@ -1,4 +1,4 @@
-package com.example.whereismymoney.helpers
+package com.example.whereismymoney.helpers.network
 
 import retrofit2.Call
 import retrofit2.http.GET

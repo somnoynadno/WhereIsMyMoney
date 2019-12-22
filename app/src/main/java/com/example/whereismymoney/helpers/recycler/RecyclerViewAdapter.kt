@@ -1,4 +1,4 @@
-package com.example.whereismymoney.helpers
+package com.example.whereismymoney.helpers.recycler
 
 import android.graphics.Color.WHITE
 import android.view.LayoutInflater
@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
 import androidx.core.content.ContextCompat
 import androidx.room.Room
+import com.example.whereismymoney.helpers.CalendarHelper
 import com.example.whereismymoney.models.AppDatabase
 import com.example.whereismymoney.models.Debt
 import kotlinx.android.synthetic.main.recycler_item.view.*
 import java.text.SimpleDateFormat
 
 class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val callback: Callback) :
-    RecyclerView.Adapter<RecyclerViewAdapter.MainHolder>(), ItemTouchHelperAdapter {
+    RecyclerView.Adapter<RecyclerViewAdapter.MainHolder>(),
+    ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val view = LayoutInflater.from(parent.context).inflate(

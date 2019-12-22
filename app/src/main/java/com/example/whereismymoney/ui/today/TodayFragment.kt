@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
-import com.example.whereismymoney.helpers.RecyclerViewAdapter
+import com.example.whereismymoney.helpers.recycler.RecyclerViewAdapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.room.Room
 import com.example.whereismymoney.helpers.CalendarHelper
-import com.example.whereismymoney.helpers.SimpleItemTouchHelperCallback
+import com.example.whereismymoney.helpers.recycler.SimpleItemTouchHelperCallback
 import com.example.whereismymoney.models.AppDatabase
 import com.example.whereismymoney.models.Debt
 
@@ -63,7 +63,8 @@ class TodayFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(root.context)
         recycler.setLayoutManager(linearLayoutManager)
 
-        val callback = SimpleItemTouchHelperCallback(myAdapter)
+        val callback =
+            SimpleItemTouchHelperCallback(myAdapter)
         val mItemTouchHelper = ItemTouchHelper(callback)
         mItemTouchHelper.attachToRecyclerView(recycler)
 

@@ -5,7 +5,6 @@
     <string name="menu_my_debtors">Кто-то должен мне</string>
 
     <string name="new_debt">Новый долг</string>
-
     <string name="placeholder_text">На этом пока всё</string>
 
     <string name="debt_type_switch">Я должник</string>
@@ -19,6 +18,7 @@
     <string name="date_layout_error">Установите дату</string>
 
     <string name="network_error">Не удалось установить соединение с сервером</string>
+    <string name="back_press_warning">Данные не сохранятся. Продолжить?</string>
 
     <string name="RUB">₽</string>
     <string name="EUR">€</string>

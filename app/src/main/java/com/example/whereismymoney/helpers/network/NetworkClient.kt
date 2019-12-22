@@ -1,4 +1,4 @@
-package com.example.whereismymoney.helpers
+package com.example.whereismymoney.helpers.network
 
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
