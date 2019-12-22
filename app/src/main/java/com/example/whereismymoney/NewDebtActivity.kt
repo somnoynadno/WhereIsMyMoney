@@ -155,4 +155,19 @@ class NewDebtActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
     }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this@NewDebtActivity)
+
+        builder.setMessage("Данные не сохранятся. Продолжить?")
+
+        builder.setPositiveButton("Да") { _, _ ->
+            super.onBackPressed()
+        }
+
+        builder.setNeutralButton("Отмена") { _, _ -> }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
 }

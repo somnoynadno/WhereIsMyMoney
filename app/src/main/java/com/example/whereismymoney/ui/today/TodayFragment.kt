@@ -48,7 +48,7 @@ class TodayFragment : Fragment() {
         val year = c.get(Calendar.YEAR)              // ЗАТО ОНО РАБОТАЕТ
         val month = c.get(Calendar.MONTH)           // ЗАТО ОНО РАБОТАЕТ
         val day = c.get(Calendar.DAY_OF_MONTH)     // ЗАТО ОНО РАБОТАЕТ
-                                                  // ЗАТО ОНО РАБОТАЕТ
+        // ЗАТО ОНО РАБОТАЕТ
         val chosenDate = day.toString() + "." +  // ЗАТО ОНО РАБОТАЕТ
                 (month + 1).toString() + "." +  // ЗАТО ОНО РАБОТАЕТ
                 year.toString()                // ЗАТО ОНО РАБОТАЕТ
@@ -58,13 +58,16 @@ class TodayFragment : Fragment() {
         val items = db.debtDao().getByDate(date.toString())
         // костыль ends here
 
-        val myAdapter = RecyclerViewAdapter(items.toMutableList(), object : RecyclerViewAdapter.Callback {
-            override fun onItemClicked(item: Debt) {
-                //TODO: handle click
+        val myAdapter = RecyclerViewAdapter(
+            items.toMutableList(),
+            root,
+            object : RecyclerViewAdapter.Callback {
+                override fun onItemClicked(item: Debt) {
+                    //TODO: handle click
 
-                // но зачем?..
-            }
-        })
+                    // но зачем?..
+                }
+            })
 
         recycler.adapter = myAdapter
 

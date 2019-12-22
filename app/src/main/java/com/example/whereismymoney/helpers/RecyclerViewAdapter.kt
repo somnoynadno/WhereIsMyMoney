@@ -2,7 +2,9 @@ package com.example.whereismymoney.helpers
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
@@ -10,17 +12,19 @@ import androidx.core.content.ContextCompat
 import com.example.whereismymoney.models.Debt
 import java.text.SimpleDateFormat
 
-
-class RecyclerViewAdapter(var items: MutableList<Debt>, val callback: Callback) :
+class RecyclerViewAdapter(var items: MutableList<Debt>, root: View, val callback: Callback) :
     RecyclerView.Adapter<RecyclerViewAdapter.MainHolder>(), ItemTouchHelperAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MainHolder(
-        LayoutInflater.from(parent.context).inflate(
+    val root = root
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
+        val view = LayoutInflater.from(parent.context).inflate(
             R.layout.recycler_item,
             parent,
             false
         )
-    )
+        return MainHolder(view)
+    }
 
     override fun getItemCount() = items.size
 
@@ -31,6 +35,7 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val callback: Callback) 
     override fun onItemDismiss(position: Int) {
         items.removeAt(position)
         notifyItemRemoved(position)
+        checkForEmpty()
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
@@ -76,4 +81,10 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val callback: Callback) 
         fun onItemClicked(item: Debt)
     }
 
+    private fun checkForEmpty(){
+        if (items.size == 0){
+            root.findViewById<ImageView>(R.id.placeholder).visibility = VISIBLE
+            root.findViewById<TextView>(R.id.placeholderText).visibility = VISIBLE
+        }
+    }
 }
