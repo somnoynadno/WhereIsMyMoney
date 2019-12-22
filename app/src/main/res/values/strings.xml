@@ -3,12 +3,18 @@
     <string name="menu_today">Сегодня</string>
     <string name="menu_my_debts">Мои долги</string>
     <string name="menu_my_debtors">Кто-то должен мне</string>
+
     <string name="nav_header_desc">Да</string>
     <string name="nav_header_title">Заголовок</string>
     <string name="nav_header_subtitle">Подзаголовок</string>
+
     <string name="debt_type_switch">Я должник</string>
     <string name="name_input_hint">Имя доброго человека</string>
     <string name="sum_input_hint">Сумма</string>
-    <string name="date_text">Вернуть до …</string>
+    <string name="date_text">Вернуть до: никогда</string>
     <string name="save_text">Сохранить</string>
+
+    <string name="amount_layout_error">Это поле не может быть пустым</string>
+    <string name="name_layout_error">Это поле не может быть пустым</string>
+    <string name="date_layout_error">Установите дату</string>
 </resources>

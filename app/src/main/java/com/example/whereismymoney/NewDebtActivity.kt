@@ -13,11 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 import java.text.SimpleDateFormat
-import android.widget.CompoundButton
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 
 class NewDebtActivity : AppCompatActivity() {
@@ -48,7 +43,7 @@ class NewDebtActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            alertSaveDialog()
+            if (!checkFields()) alertSaveDialog()
         }
 
         debtTypeSwitch.setOnCheckedChangeListener { _, _ ->
@@ -56,6 +51,27 @@ class NewDebtActivity : AppCompatActivity() {
         }
     }
 
+    // return true if error in validation
+    private fun checkFields():Boolean {
+        var error = false
+
+        if (nameInput.text!!.length.equals(0)) {
+            nameInputLayout.error = getString(R.string.name_layout_error)
+            error = true
+        } else nameInputLayout.error = null
+
+        if (sumText.text!!.length.equals(0)) {
+            amountInputLayout.error = getString(R.string.amount_layout_error)
+            error = true
+        } else amountInputLayout.error = null
+
+        if (date == null) {
+            dateInputLayout.error = getString(R.string.date_layout_error)
+            error = true
+        } else dateInputLayout.error = null
+
+        return error
+    }
 
     private fun alertSaveDialog() {
         val builder = AlertDialog.Builder(this@NewDebtActivity)

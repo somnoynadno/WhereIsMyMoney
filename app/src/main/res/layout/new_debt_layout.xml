@@ -38,17 +38,25 @@
         app:layout_constraintStart_toEndOf="@+id/debtTypeSwitch"
         app:layout_constraintTop_toTopOf="@+id/debtTypeSwitch" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/nameInput"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:hint="@string/name_input_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/debtTypeSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/debtTypeSwitch"
+        app:errorEnabled="true" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name_input_hint" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/datePickerButton"
@@ -57,35 +65,60 @@
         android:layout_marginEnd="32dp"
         android:contentDescription="@string/date_text"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/dateText"
+        app:layout_constraintBottom_toBottomOf="@+id/dateInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dateText"
-        app:layout_constraintVertical_bias="0.494"
+        app:layout_constraintTop_toTopOf="@+id/dateInputLayout"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/pencil" />
 
-    <TextView
-        android:id="@+id/dateText"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dateInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:text="@string/date_text"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
+        app:layout_constraintTop_toBottomOf="@+id/nameInputLayout"
+        app:errorEnabled="true" >
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/date_text"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sumText"
-        android:inputType="number"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/amountInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="100dp"
-        android:hint="@string/sum_input_hint"
-        app:layout_constraintStart_toStartOf="@+id/dateText"
-        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateInputLayout"
+        app:errorEnabled="true" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sumText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/sum_input_hint" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/amountInputLayout"
+        app:layout_constraintStart_toEndOf="@+id/amountInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/amountInputLayout" />
 
     <Button
         android:id="@+id/saveButton"
@@ -103,13 +136,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/sumText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sumText"
-        app:layout_constraintTop_toTopOf="@+id/sumText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
