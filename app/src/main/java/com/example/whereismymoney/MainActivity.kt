@@ -17,12 +17,12 @@ import com.example.whereismymoney.models.AppDatabase
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.app.Activity
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.whereismymoney.helpers.*
-import com.example.whereismymoney.models.Debt
+import kotlinx.android.synthetic.main.nav_header_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -71,19 +71,31 @@ class MainActivity : AppCompatActivity() {
 
         call.enqueue(object : Callback<APIResponse> {
             override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
-                // TODO: alert error
-                t?.printStackTrace()
+                alertNetworkErrorDialog()
             }
 
             override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
                 val res = response!!.body()
-                var rates = res!!.rates
+                val date = res!!.date
+                val rates = res.rates
 
-                // TODO: insert in drawer
-                println(rates!!.RUB)
-                println(rates!!.USD)
+                // insert in drawer
+                // TODO: format strings here
+                currencyText.text = "Курс валют (" + date.toString() + "):"
+                EUR_USD.text = "1€ = " + rates!!.USD + "$"
+                EUR_RUB.text = "1€ = " + rates!!.RUB + "\u20BD"
             }
         })
+    }
+
+    private fun alertNetworkErrorDialog(){
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setMessage("Не удалось установить соединение с сервером")
+
+        builder.setPositiveButton("Ну ладно"){_, _ ->}
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

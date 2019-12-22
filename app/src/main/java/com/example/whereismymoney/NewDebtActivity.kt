@@ -11,6 +11,9 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.room.Room
+import com.example.whereismymoney.models.AppDatabase
+import com.example.whereismymoney.models.Debt
 import java.util.*
 import java.text.SimpleDateFormat
 
@@ -19,9 +22,8 @@ class NewDebtActivity : AppCompatActivity() {
 
     private var chosenDate = ""
     private var date: Date? = null
-    private var debtorName: String? = null
     private var isMyDebt: Boolean = false
-    private val arraySpinner = arrayOf("RUB", "USD", "EUR", "NSD")
+    private val arraySpinner = arrayOf("RUB", "USD", "EUR")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,7 @@ class NewDebtActivity : AppCompatActivity() {
     }
 
     // return true if error in validation
-    private fun checkFields():Boolean {
+    private fun checkFields(): Boolean {
         var error = false
 
         if (nameInput.text!!.length.equals(0)) {
@@ -60,7 +62,7 @@ class NewDebtActivity : AppCompatActivity() {
             error = true
         } else nameInputLayout.error = null
 
-        if (sumText.text!!.length.equals(0)) {
+        if (amountInput.text!!.length.equals(0)) {
             amountInputLayout.error = getString(R.string.amount_layout_error)
             error = true
         } else amountInputLayout.error = null
@@ -72,6 +74,7 @@ class NewDebtActivity : AppCompatActivity() {
 
         return error
     }
+
 
     private fun alertSaveDialog() {
         val builder = AlertDialog.Builder(this@NewDebtActivity)
@@ -129,7 +132,24 @@ class NewDebtActivity : AppCompatActivity() {
 
 
     private fun saveDebtAndExit() {
-        // TODO: save debt
+        val debtor = nameInput.text.toString()              //  они не пустые
+        val amount = amountInput.text.toString().toLong()   // я это гарантирую
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "debts"
+        ).allowMainThreadQueries().build()
+
+        db.debtDao().insertAll(
+            Debt(
+                debtor = debtor,
+                amount = amount,
+                date = date!!.time,
+                isMyDebt = isMyDebt,
+                currency = spinner.getSelectedItem().toString()
+            )
+        )
+
         val returnIntent = Intent()
         returnIntent.putExtra("result", 1)
         setResult(Activity.RESULT_OK, returnIntent)

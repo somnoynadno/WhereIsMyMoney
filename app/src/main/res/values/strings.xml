@@ -17,4 +17,8 @@
     <string name="amount_layout_error">Это поле не может быть пустым</string>
     <string name="name_layout_error">Это поле не может быть пустым</string>
     <string name="date_layout_error">Установите дату</string>
+
+    <string name="RUB">₽</string>
+    <string name="EUR">€</string>
+    <string name="USD">$</string>
 </resources>
