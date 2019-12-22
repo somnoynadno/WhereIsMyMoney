@@ -18,9 +18,11 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import android.app.Activity
 import android.widget.Toast
 import com.example.whereismymoney.helpers.*
+import com.example.whereismymoney.models.Debt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -49,8 +51,8 @@ class MainActivity : AppCompatActivity() {
 
         val db = Room.databaseBuilder(
             applicationContext,
-            AppDatabase::class.java, "database-name"
-        ).build()
+            AppDatabase::class.java, "debts"
+        ).allowMainThreadQueries().build()
 
         addNewDebtButton.setOnClickListener {
             val intent = Intent(this, NewDebtActivity::class.java)

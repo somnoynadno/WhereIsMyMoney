@@ -13,12 +13,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 import java.text.SimpleDateFormat
+import android.widget.CompoundButton
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 
 class NewDebtActivity : AppCompatActivity() {
 
     private var chosenDate = ""
-    private var date = Date()
+    private var date: Date? = null
+    private var debtorName: String? = null
+    private var isMyDebt: Boolean = false
+    private val arraySpinner = arrayOf("RUB", "USD", "EUR", "NSD")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +35,11 @@ class NewDebtActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.newDebtToolbar)
         setSupportActionBar(toolbar)
 
-        val arraySpinner = arrayOf("RUB", "USD", "EUR", "NSD")
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item, arraySpinner
         )
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
@@ -41,6 +49,10 @@ class NewDebtActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             alertSaveDialog()
+        }
+
+        debtTypeSwitch.setOnCheckedChangeListener { _, _ ->
+            isMyDebt = !isMyDebt
         }
     }
 
@@ -100,7 +112,7 @@ class NewDebtActivity : AppCompatActivity() {
     }
 
 
-    private fun saveDebtAndExit(){
+    private fun saveDebtAndExit() {
         // TODO: save debt
         val returnIntent = Intent()
         returnIntent.putExtra("result", 1)
