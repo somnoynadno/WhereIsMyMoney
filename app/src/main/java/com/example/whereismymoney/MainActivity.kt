@@ -63,26 +63,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun getRates() {
         val retrofit = NetworkClient.retrofitClient
-        val r = retrofit!!.create<APIInterface>(APIInterface::class.java)
+        val r = retrofit?.create<APIInterface>(APIInterface::class.java)
 
-        val call = r.getRates()
+        val call = r?.getRates()
 
-        call.enqueue(object : Callback<APIResponse> {
+        call?.enqueue(object : Callback<APIResponse> {
             override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
                 alertNetworkErrorDialog()
                 currencyText.text = getString(R.string.network_error)
             }
 
             override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
-                val res = response!!.body()
-                val date = res!!.date
-                val rates = res!!.rates
+                val res = response?.body()
+                val date = res?.date
+                val rates = res?.rates
 
                 // insert in drawer
-                // TODO: format strings here
-                currencyText.text = "Курс валют (" + date.toString() + "):"
-                EUR_USD.text = "1€ = " + rates!!.USD + "$"
-                EUR_RUB.text = "1€ = " + rates!!.RUB + "\u20BD"
+                currencyText.text = getString(R.string.currency_text, date.toString())
+                EUR_USD.text = getString(R.string.EUR_equal_USD, rates?.USD)
+                EUR_RUB.text = getString(R.string.EUR_equal_RUB, rates?.RUB)
 
                 // ну я так подумал, что можно сразу и сумму долгов рассчитать
                 setAmountInDrawer(rates)
@@ -90,14 +89,15 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setAmountInDrawer(rates: Rates) {
+    // TODO: add enum here
+    private fun setAmountInDrawer(rates: Rates?) {
         val db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "debts"
         ).allowMainThreadQueries().build()
 
-        val rub = rates.RUB
-        val usd = rates.USD
+        val rub = rates?.RUB
+        val usd = rates?.USD
 
         val items = db.debtDao().getAll()
         var myDebtsSum: Long = 0
@@ -110,35 +110,34 @@ class MainActivity : AppCompatActivity() {
             if (value.isMyDebt) {
                 when (value.currency) {
                     "RUB" -> myDebtsSum += value.amount
-                    "USD" -> myDebtsSum += (value.amount*rub!!.toDouble()/usd!!.toDouble()).toLong()
-                    "EUR" -> myDebtsSum += (value.amount*rub!!.toDouble()).toLong()
+                    "USD" -> myDebtsSum += (value.amount * rub!!.toDouble() / usd!!.toDouble()).toLong()
+                    "EUR" -> myDebtsSum += (value.amount * rub!!.toDouble()).toLong()
                 }
             }
             if (!value.isMyDebt) {
                 when (value.currency) {
                     "RUB" -> debtsSum += value.amount
-                    "USD" -> debtsSum += (value.amount*rub!!.toDouble()/usd!!.toDouble()).toLong()
-                    "EUR" -> debtsSum += (value.amount*rub!!.toDouble()).toLong()
+                    "USD" -> debtsSum += (value.amount * rub!!.toDouble() / usd!!.toDouble()).toLong()
+                    "EUR" -> debtsSum += (value.amount * rub!!.toDouble()).toLong()
                 }
             }
         }
 
-        myDebtsSumText.text = "Я должен: " + myDebtsSum + "\u20BD"
-        debtsSumText.text = "Мне должны: " + debtsSum + "\u20BD"
+        myDebtsSumText.text = getString(R.string.my_debts_sum, myDebtsSum)
+        debtsSumText.text = getString(R.string.my_debtors_sum, debtsSum)
     }
 
     private fun alertNetworkErrorDialog() {
         val builder = AlertDialog.Builder(this@MainActivity)
         builder.setMessage(getString(R.string.network_error))
 
-        builder.setPositiveButton("Ну ладно") { _, _ -> }
+        builder.setPositiveButton(getString(R.string.agree_text)) { _, _ -> }
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -151,17 +150,16 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                val result = data!!.getStringExtra("result")
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Долг добавлен!", Toast.LENGTH_SHORT
+                    getString(R.string.debt_added), Toast.LENGTH_SHORT
                 )
                 toast.show()
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Отмена", Toast.LENGTH_SHORT
+                    getString(R.string.cancel), Toast.LENGTH_SHORT
                 )
                 toast.show()
             }

@@ -55,18 +55,14 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val call
     inner class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         ItemTouchHelperViewHolder {
 
-        private val debtorInfoText = itemView.findViewById<TextView>(R.id.debtorInfoText)
-        private val dateInfoText = itemView.findViewById<TextView>(R.id.dateInfoText)
-        private val amountInfoText = itemView.findViewById<TextView>(R.id.amountInfoText)
-
         private val currentDate = CalendarHelper().getCurrentDateAsLong()
 
         fun bind(item: Debt) {
             val sdf = SimpleDateFormat("dd.MM.yyyy")
 
-            amountInfoText.text = item.amount.toString() + " " + item.currency
-            dateInfoText.text = sdf.format(item.date)
-            debtorInfoText.text = item.debtor
+            itemView.amountInfoText.text = item.amount.toString() + " " + item.currency
+            itemView.dateInfoText.text = sdf.format(item.date)
+            itemView.debtorInfoText.text = item.debtor
 
             if (item.isMyDebt){
                 itemView.card_view.setBackgroundResource(R.color.colorCardAccent)
@@ -76,9 +72,9 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val call
 //                itemView.card_view.setBackgroundResource(R.color.colorCardToday)
 //            }
 
-            amountInfoText.setTextColor(WHITE)
-            debtorInfoText.setTextColor(WHITE)
-            dateInfoText.setTextColor(WHITE)
+            itemView.amountInfoText.setTextColor(WHITE)
+            itemView.debtorInfoText.setTextColor(WHITE)
+            itemView.dateInfoText.setTextColor(WHITE)
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION)

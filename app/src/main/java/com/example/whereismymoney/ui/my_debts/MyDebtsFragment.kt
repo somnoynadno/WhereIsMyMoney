@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,6 @@ import com.example.whereismymoney.models.Debt
 
 class MyDebtsFragment : Fragment() {
 
-    private lateinit var myDebtsViewModel: MyDebtsViewModel
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreateView(
@@ -28,8 +26,6 @@ class MyDebtsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        myDebtsViewModel =
-            ViewModelProviders.of(this).get(MyDebtsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_my_debts, container, false)
         val recycler: RecyclerView = root.findViewById(R.id.debtsRecyclerView)
 
@@ -40,7 +36,7 @@ class MyDebtsFragment : Fragment() {
 
         val items = db.debtDao().loadMyDebts()
 
-        if (items.size == 0){
+        if (items.isEmpty()) {
             root.findViewById<ImageView>(R.id.placeholder).visibility = View.VISIBLE
             root.findViewById<TextView>(R.id.placeholderText).visibility = View.VISIBLE
         }
@@ -50,16 +46,14 @@ class MyDebtsFragment : Fragment() {
             root,
             object : RecyclerViewAdapter.Callback {
                 override fun onItemClicked(item: Debt) {
-                    //TODO: handle click
 
-                    // но зачем?..
                 }
             })
 
         recycler.adapter = myAdapter
 
         linearLayoutManager = LinearLayoutManager(root.context)
-        recycler.setLayoutManager(linearLayoutManager)
+        recycler.layoutManager = linearLayoutManager
 
         val callback =
             SimpleItemTouchHelperCallback(myAdapter)

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whereismymoney.R
@@ -22,7 +21,6 @@ import com.example.whereismymoney.models.Debt
 
 class TodayFragment : Fragment() {
 
-    private lateinit var todayViewModel: TodayViewModel
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreateView(
@@ -30,7 +28,6 @@ class TodayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        todayViewModel = ViewModelProviders.of(this).get(TodayViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_today, container, false)
         val recycler: RecyclerView = root.findViewById(R.id.debtsRecyclerView)
 
@@ -52,16 +49,13 @@ class TodayFragment : Fragment() {
             root,
             object : RecyclerViewAdapter.Callback {
                 override fun onItemClicked(item: Debt) {
-                    //TODO: handle click
-
-                    // но зачем?..
                 }
             })
 
         recycler.adapter = myAdapter
 
         linearLayoutManager = LinearLayoutManager(root.context)
-        recycler.setLayoutManager(linearLayoutManager)
+        recycler.layoutManager = linearLayoutManager
 
         val callback =
             SimpleItemTouchHelperCallback(myAdapter)

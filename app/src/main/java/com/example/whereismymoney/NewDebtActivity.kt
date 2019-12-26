@@ -1,5 +1,6 @@
 package com.example.whereismymoney
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.new_debt_layout.*
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.room.Room
@@ -30,8 +32,8 @@ class NewDebtActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.newDebtToolbar)
         setSupportActionBar(toolbar)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
-        getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         toolbar.title = getString(R.string.new_debt)
         toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -61,12 +63,12 @@ class NewDebtActivity : AppCompatActivity() {
     private fun checkFields(): Boolean {
         var error = false
 
-        if (nameInput.text!!.length.equals(0)) {
+        if (nameInput.text!!.isEmpty()) {
             nameInputLayout.error = getString(R.string.name_layout_error)
             error = true
         } else nameInputLayout.error = null
 
-        if (amountInput.text!!.length.equals(0)) {
+        if (amountInput.text!!.isEmpty()) {
             amountInputLayout.error = getString(R.string.amount_layout_error)
             error = true
         } else amountInputLayout.error = null
@@ -83,24 +85,27 @@ class NewDebtActivity : AppCompatActivity() {
     private fun alertSaveDialog() {
         val builder = AlertDialog.Builder(this@NewDebtActivity)
 
-        builder.setMessage("Сохранить?")
+        builder.setMessage(getString(R.string.save_question))
 
-        builder.setPositiveButton("Да") { dialog, which ->
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             saveDebtAndExit()
         }
 
-        builder.setNeutralButton("Отмена") { _, _ ->
+        builder.setNegativeButton(getString(R.string.cancel)) { _, _ ->
             Toast.makeText(
-                applicationContext, "Отмена",
+                applicationContext, getString(R.string.cancel),
                 Toast.LENGTH_SHORT
             ).show()
         }
-
         val dialog: AlertDialog = builder.create()
         dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)
+
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     private fun alertDatePickerDialog() {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -109,14 +114,14 @@ class NewDebtActivity : AppCompatActivity() {
 
         val dpd = DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            DatePickerDialog.OnDateSetListener { _, thisYear, monthOfYear, dayOfMonth ->
                 chosenDate = dayOfMonth.toString() + "." +
                         (monthOfYear + 1).toString() + "." +
-                        year.toString()
+                        thisYear.toString()
 
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Дата выбрана: " + chosenDate, Toast.LENGTH_SHORT
+                    "Дата выбрана: $chosenDate", Toast.LENGTH_SHORT
                 )
                 toast.show()
 
@@ -124,7 +129,7 @@ class NewDebtActivity : AppCompatActivity() {
                 date = SimpleDateFormat(pattern).parse(chosenDate)
                 println(date)
 
-                dateText.text = "Вернёт до " + chosenDate
+                dateText.text = getString(R.string.return_until, chosenDate)
             },
             year,
             month,
@@ -150,12 +155,11 @@ class NewDebtActivity : AppCompatActivity() {
                 amount = amount,
                 date = date!!.time,
                 isMyDebt = isMyDebt,
-                currency = spinner.getSelectedItem().toString()
+                currency = spinner.selectedItem.toString()
             )
         )
 
         val returnIntent = Intent()
-        returnIntent.putExtra("result", 1)
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
     }
@@ -165,13 +169,15 @@ class NewDebtActivity : AppCompatActivity() {
 
         builder.setMessage(getString(R.string.back_press_warning))
 
-        builder.setPositiveButton("Да") { _, _ ->
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             super.onBackPressed()
         }
 
-        builder.setNeutralButton("Отмена") { _, _ -> }
+        builder.setNegativeButton(getString(R.string.cancel)) { _, _ -> }
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY)
     }
 }
