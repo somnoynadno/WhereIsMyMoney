@@ -14,14 +14,15 @@ import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import androidx.room.*
 import com.example.whereismymoney.models.AppDatabase
-import kotlinx.android.synthetic.main.app_bar_main.*
 import android.app.Activity
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.whereismymoney.helpers.CalendarHelper
 import com.example.whereismymoney.helpers.network.APIInterface
 import com.example.whereismymoney.helpers.network.APIResponse
 import com.example.whereismymoney.helpers.network.NetworkClient
 import com.example.whereismymoney.helpers.network.Rates
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,11 +53,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        addNewDebtButton.setOnClickListener {
-            val intent = Intent(this, NewDebtActivity::class.java)
-            startActivityForResult(intent, 1)
-        }
-
         // API call
         getRates()
     }
@@ -75,11 +71,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
                 val res = response?.body()
-                val date = res?.date
                 val rates = res?.rates
+                val date = CalendarHelper().getCurrentDateAsFormatedString()
 
                 // insert in drawer
-                currencyText.text = getString(R.string.currency_text, date.toString())
+                currencyText.text = getString(R.string.currency_text, date)
                 EUR_USD.text = getString(R.string.EUR_equal_USD, rates?.USD)
                 EUR_RUB.text = getString(R.string.EUR_equal_RUB, rates?.RUB)
 
@@ -123,8 +119,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        myDebtsSumText.text = getString(R.string.my_debts_sum, myDebtsSum)
-        debtsSumText.text = getString(R.string.my_debtors_sum, debtsSum)
+        myDebtsSumText.text = getString(R.string.my_debts_sum, myDebtsSum.toString())
+        debtsSumText.text = getString(R.string.my_debtors_sum, debtsSum.toString())
     }
 
     private fun alertNetworkErrorDialog() {
@@ -166,9 +162,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // TODO: enough?
     override fun onResume() {
         super.onResume()
         getRates()
+
+        nav_view.refreshDrawableState()
     }
 }

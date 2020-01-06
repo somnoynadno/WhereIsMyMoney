@@ -1,5 +1,6 @@
 package com.example.whereismymoney.ui.today
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,12 @@ import com.example.whereismymoney.R
 import com.example.whereismymoney.helpers.recycler.RecyclerViewAdapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.room.Room
+import com.example.whereismymoney.NewDebtActivity
 import com.example.whereismymoney.helpers.CalendarHelper
 import com.example.whereismymoney.helpers.recycler.SimpleItemTouchHelperCallback
 import com.example.whereismymoney.models.AppDatabase
 import com.example.whereismymoney.models.Debt
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class TodayFragment : Fragment() {
@@ -61,6 +64,11 @@ class TodayFragment : Fragment() {
             SimpleItemTouchHelperCallback(myAdapter)
         val mItemTouchHelper = ItemTouchHelper(callback)
         mItemTouchHelper.attachToRecyclerView(recycler)
+
+        root.findViewById<FloatingActionButton>(R.id.addNewDebtButton).setOnClickListener {
+            val intent = Intent(context, NewDebtActivity::class.java)
+            startActivityForResult(intent, 1)
+        }
 
         return root
     }

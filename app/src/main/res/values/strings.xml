@@ -32,11 +32,11 @@
     <string name="USD">$</string>
 
     <string name="currency_text">"Курс валют (%s):</string>
-    <string name="EUR_equal_USD">1€ = %e $</string>
-    <string name="EUR_equal_RUB">1€ = %e ₽</string>
+    <string name="EUR_equal_USD">1€ = %.3f $</string>
+    <string name="EUR_equal_RUB">1€ = %.3f ₽</string>
 
-    <string name="my_debts_sum">Я должен: %e ₽</string>
-    <string name="my_debtors_sum">Мне должны: %e ₽</string>
+    <string name="my_debts_sum">Я должен: %s ₽</string>
+    <string name="my_debtors_sum">Мне должны: %s ₽</string>
 
     <!-- Dialog strings -->
     <string name="save_question">Сохранить?</string>

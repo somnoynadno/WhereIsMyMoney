@@ -19,4 +19,10 @@ class CalendarHelper {
 
         return date
     }
+
+    fun getCurrentDateAsFormatedString(): String {
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+
+        return sdf.format(Date())
+    }
 }
