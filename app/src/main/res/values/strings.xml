@@ -8,14 +8,21 @@
     <string name="new_debt">Новый долг</string>
     <string name="placeholder_text">На этом пока всё</string>
 
-    <!-- New Debt Activity -->
-    <string name="debt_type_switch">Я должник</string>
-    <string name="name_input_hint">Имя доброго человека</string>
-    <string name="sum_input_hint">Сумма</string>
-    <string name="date_text">Вернуть до: никогда</string>
-    <string name="save_text">Сохранить</string>
+    <string name="need_to_return_today">Отдать сегодня!</string>
+    <string name="will_be_returned_today">Вернут сегодня</string>
 
-    <string name="return_until">Вернёт до: %s</string>
+    <!-- New Debt Activity -->
+    <string name="debt_type_switch_off">Я занимаю</string>
+    <string name="debt_type_switch_on">Я должник</string>
+    <string name="name_input_hint_off">Имя должника</string>
+    <string name="name_input_hint_on">Имя доброго человека</string>
+    <string name="date_text_off">Вернёт до: никогда</string>
+    <string name="date_text_on">Вернуть до: никогда</string>
+    <string name="return_until_off">Вернёт до: %s</string>
+    <string name="return_until_on">Вернуть до: %s</string>
+
+    <string name="save_text">Сохранить</string>
+    <string name="sum_input_hint">Сумма</string>
 
     <!-- Check for errors -->
     <string name="amount_layout_error">Это поле не может быть пустым</string>

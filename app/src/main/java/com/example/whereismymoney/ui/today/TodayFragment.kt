@@ -40,7 +40,7 @@ class TodayFragment : Fragment() {
         ).allowMainThreadQueries().build()
 
         val date = CalendarHelper().getCurrentDateAsLong()
-        val items = db.debtDao().getByDate(date.toString())
+        val items = db.debtDao().getAll()
 
         if (items.isEmpty()){
             root.findViewById<ImageView>(R.id.placeholder).visibility = View.VISIBLE

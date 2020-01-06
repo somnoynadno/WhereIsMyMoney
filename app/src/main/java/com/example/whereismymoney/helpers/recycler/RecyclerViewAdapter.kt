@@ -1,6 +1,7 @@
 package com.example.whereismymoney.helpers.recycler
 
-import android.graphics.Color.WHITE
+import android.annotation.SuppressLint
+import android.graphics.Color.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
@@ -57,6 +58,7 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val call
 
         private val currentDate = CalendarHelper().getCurrentDateAsLong()
 
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         fun bind(item: Debt) {
             val sdf = SimpleDateFormat("dd.MM.yyyy")
 
@@ -64,17 +66,35 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val call
             itemView.dateInfoText.text = sdf.format(item.date)
             itemView.debtorInfoText.text = item.debtor
 
-            if (item.isMyDebt){
+            // честно говоря, я так и не понял, когда нужно перекрашивать в другой цвет
+            // поэтому сделал так
+            if (!item.isMyDebt) {
+                itemView.card_view.setBackgroundResource(R.color.colorCardPrimary)
+            }
+
+            if (item.date < currentDate) {
                 itemView.card_view.setBackgroundResource(R.color.colorCardAccent)
-            } else itemView.card_view.setBackgroundResource(R.color.colorCardPrimary)
+            }
 
-//            if (item.date == currentDate){
-//                itemView.card_view.setBackgroundResource(R.color.colorCardToday)
-//            }
+            if (item.date == currentDate) {
+                itemView.card_view.setBackgroundResource(R.color.colorCardToday)
+                if (item.isMyDebt)
+                    itemView.card_view.dateInfoText.text =
+                        root.context.getString(R.string.need_to_return_today)
+                else
+                    itemView.card_view.dateInfoText.text =
+                        root.context.getString(R.string.will_be_returned_today)
+            }
 
-            itemView.amountInfoText.setTextColor(WHITE)
-            itemView.debtorInfoText.setTextColor(WHITE)
-            itemView.dateInfoText.setTextColor(WHITE)
+            if (item.isMyDebt && item.date > currentDate) {
+                itemView.amountInfoText.setTextColor(BLACK)
+                itemView.debtorInfoText.setTextColor(GRAY)
+                itemView.dateInfoText.setTextColor(GRAY)
+            } else {
+                itemView.amountInfoText.setTextColor(WHITE)
+                itemView.debtorInfoText.setTextColor(WHITE)
+                itemView.dateInfoText.setTextColor(WHITE)
+            }
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION)
@@ -100,14 +120,14 @@ class RecyclerViewAdapter(var items: MutableList<Debt>, val root: View, val call
         fun onItemClicked(item: Debt)
     }
 
-    private fun checkForEmpty(){
-        if (items.size == 0){
+    private fun checkForEmpty() {
+        if (items.size == 0) {
             root.findViewById<ImageView>(R.id.placeholder).visibility = VISIBLE
             root.findViewById<TextView>(R.id.placeholderText).visibility = VISIBLE
         }
     }
 
-    private fun deleteDebtFromDB(debt: Debt){
+    private fun deleteDebtFromDB(debt: Debt) {
         val db = Room.databaseBuilder(
             root.context,
             AppDatabase::class.java, "debts"

@@ -24,6 +24,8 @@
         android:layout_marginTop="24dp"
         android:scaleX="1.2"
         android:scaleY="1.2"
+        android:checked="false"
+        android:theme="@style/SCBSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newDebtToolbar" />
 
@@ -32,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/debt_type_switch"
+        android:text="@string/debt_type_switch_off"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/debtTypeSwitch"
         app:layout_constraintStart_toEndOf="@+id/debtTypeSwitch"
@@ -53,8 +55,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name_input_hint" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +64,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="32dp"
-        android:contentDescription="@string/date_text"
+        android:contentDescription="@string/date_text_off"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/dateInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +86,7 @@
             android:id="@+id/dateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date_text"
+            android:text="@string/date_text_off"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>

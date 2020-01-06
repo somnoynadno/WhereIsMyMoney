@@ -19,6 +19,7 @@ import com.example.whereismymoney.models.Debt
 import java.util.*
 import java.text.SimpleDateFormat
 
+
 class NewDebtActivity : AppCompatActivity() {
 
     private var chosenDate = ""
@@ -54,8 +55,19 @@ class NewDebtActivity : AppCompatActivity() {
             if (!checkFields()) alertSaveDialog()
         }
 
+        nameInput.hint = getString(R.string.name_input_hint_off)
+
         debtTypeSwitch.setOnCheckedChangeListener { _, _ ->
             isMyDebt = !isMyDebt
+            if (isMyDebt) {
+                switchText.text = getString(R.string.debt_type_switch_on)
+                dateText.text = getString(R.string.date_text_on)
+                nameInput.hint = getString(R.string.name_input_hint_on)
+            } else {
+                switchText.text = getString(R.string.debt_type_switch_off)
+                dateText.text = getString(R.string.date_text_off)
+                nameInput.hint = getString(R.string.name_input_hint_off)
+            }
         }
     }
 
@@ -129,7 +141,10 @@ class NewDebtActivity : AppCompatActivity() {
                 date = SimpleDateFormat(pattern).parse(chosenDate)
                 println(date)
 
-                dateText.text = getString(R.string.return_until, chosenDate)
+                if (isMyDebt)
+                    dateText.text = getString(R.string.return_until_on, chosenDate)
+                else
+                    dateText.text = getString(R.string.return_until_off, chosenDate)
             },
             year,
             month,
@@ -165,6 +180,14 @@ class NewDebtActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if (nameInput.text.isNullOrEmpty() &&
+            amountInput.text.isNullOrEmpty() &&
+            chosenDate.isEmpty()
+        ) {
+            super.onBackPressed()
+            return
+        }
+
         val builder = AlertDialog.Builder(this@NewDebtActivity)
 
         builder.setMessage(getString(R.string.back_press_warning))

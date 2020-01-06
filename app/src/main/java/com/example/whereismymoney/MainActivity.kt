@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
                 val res = response?.body()
                 val rates = res?.rates
-                val date = CalendarHelper().getCurrentDateAsFormatedString()
+                val date = CalendarHelper().getCurrentDateAsFormattedString()
 
                 // insert in drawer
                 currencyText.text = getString(R.string.currency_text, date)
